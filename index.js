@@ -18,10 +18,10 @@ emailjs.init({
     publicKey: "gwYgaft6xvDadNmti",
 });
 
-const contactForm = document.getElementById("contact-form");
-const submitBtn = contactForm.querySelector("button[type='submit']");
+const emailContactForm = document.getElementById("contact-form");
+const submitBtn = emailContactForm.querySelector("button[type='submit']");
 
-contactForm.addEventListener("submit", function (e) {
+emailContactForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     submitBtn.disabled = true;
@@ -31,7 +31,7 @@ contactForm.addEventListener("submit", function (e) {
         .sendForm("service_94q5zno", "template_w45ll98", this)
         .then(() => {
             alert("Message sent successfully!");
-            contactForm.reset();
+            emailContactForm.reset();
         })
         .catch((error) => {
             console.error("EmailJS error:", error);
