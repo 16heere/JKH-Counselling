@@ -1,9 +1,11 @@
 //sroll to area of page when clicking buttons
-const sections = document.querySelectorAll('section');
+const sections = document.querySelectorAll("section");
 const navButtons = document.getElementById("nav-buttons");
 const windowHeight = window.innerHeight;
 const scrollIndicator = document.getElementById("scroll-indicator");
-const items = document.getElementById("scroll-indicator").getElementsByTagName("li");
+const items = document
+    .getElementById("scroll-indicator")
+    .getElementsByTagName("li");
 const contactBtns = document.querySelectorAll("button.contact-btns");
 const dropdownBtns = document.getElementById("dropdown-btns");
 const dropdownItems = dropdownBtns.getElementsByTagName("li");
@@ -12,8 +14,29 @@ const year = document.getElementById("year");
 
 year.innerHTML = currentYear;
 
+emailjs.init({
+    publicKey: "gwYgaft6xvDadNmti",
+});
+
+const contactForm = document.getElementById("contact-form");
+
+contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    emailjs
+        .sendForm("service_94q5zno", "template_w45ll98", this)
+        .then(() => {
+            alert("Message sent successfully!");
+            contactForm.reset();
+        })
+        .catch((error) => {
+            console.error("EmailJS error:", error);
+            alert("Sorry, something went wrong. Please try again.");
+        });
+});
+
 function resetScrollIndicator() {
-    for(var i = 0; i < items.length; i++){
+    for (var i = 0; i < items.length; i++) {
         items[i].classList.remove("selected");
     }
 }
@@ -21,48 +44,51 @@ function resetScrollIndicator() {
 window.addEventListener("scroll", () => {
     const scrollTop = window.scrollY;
     sections.forEach((section, i) => {
-        if(section.offsetTop < scrollTop + windowHeight/2 && scrollTop < section.offsetTop + windowHeight/2){
+        if (
+            section.offsetTop < scrollTop + windowHeight / 2 &&
+            scrollTop < section.offsetTop + windowHeight / 2
+        ) {
             resetScrollIndicator();
-            items[i].classList.add('selected');
+            items[i].classList.add("selected");
         }
     });
 });
 
 scrollIndicator.querySelectorAll("li").forEach((item, i) => {
-    item.addEventListener("click" , () => {
+    item.addEventListener("click", () => {
         resetScrollIndicator();
         sections[i].scrollIntoView({
-            behavior: "smooth"
+            behavior: "smooth",
         });
     });
 });
 
 navButtons.querySelectorAll("li").forEach((item, i) => {
-    item.addEventListener("click" , () => {
+    item.addEventListener("click", () => {
         resetScrollIndicator();
         sections[i].scrollIntoView({
-            behavior: "smooth"
-        });  
-    })
+            behavior: "smooth",
+        });
+    });
 });
 
 dropdownBtns.querySelectorAll("li").forEach((item, i) => {
-    item.addEventListener("click" , () => {
+    item.addEventListener("click", () => {
         resetScrollIndicator();
         sections[i].scrollIntoView({
-            behavior: "smooth"
+            behavior: "smooth",
         });
     });
 });
 
 contactBtns.forEach((btn) => {
-    btn.addEventListener("click" , () => {
+    btn.addEventListener("click", () => {
         resetScrollIndicator();
         window.scrollTo({
             top: 3150,
-            behavior: 'smooth'
-        })
-    })
+            behavior: "smooth",
+        });
+    });
 });
 
 //enable hidden nav bar
@@ -70,18 +96,19 @@ const nav = document.querySelector(".nav");
 let width = window.innerWidth;
 let lastScrollY = window.scrollY;
 
-window.addEventListener("scroll" , () => {
-    if (lastScrollY < window.scrollY){
+window.addEventListener("scroll", () => {
+    if (lastScrollY < window.scrollY) {
         nav.classList.add("hidden");
         dropdownMenu.classList.remove("open");
         const isOpen = dropdownMenu.classList.contains("open");
-        toggleBtnIcon.classList = isOpen ? "fa-solid fa-xmark fa-3x" : "fa-solid fa-bars fa-3x";
+        toggleBtnIcon.classList = isOpen
+            ? "fa-solid fa-xmark fa-3x"
+            : "fa-solid fa-bars fa-3x";
     } else {
         nav.classList.remove("hidden");
     }
     lastScrollY = window.scrollY;
-    }
-);
+});
 
 //enable dropdown on navbar (mobile)
 const toggleBtn = document.querySelector(".toggle-btn");
@@ -91,7 +118,34 @@ const dropdownMenu = document.querySelector(".dropdown-menu");
 toggleBtnIcon.onclick = function () {
     dropdownMenu.classList.toggle("open");
     const isOpen = dropdownMenu.classList.contains("open");
-    toggleBtnIcon.classList = isOpen ? "fa-solid fa-xmark fa-3x" : "fa-solid fa-bars fa-3x";
-}
+    toggleBtnIcon.classList = isOpen
+        ? "fa-solid fa-xmark fa-3x"
+        : "fa-solid fa-bars fa-3x";
+};
+
+const contactForm = document.getElementById("contact-form");
+const submitBtn = contactForm.querySelector("button[type='submit']");
+
+contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    emailjs
+        .sendForm("service_94q5zno", "template_w45ll98", this)
+        .then(() => {
+            alert("Message sent successfully!");
+            contactForm.reset();
+        })
+        .catch((error) => {
+            console.error("EmailJS error:", error);
+            alert("Sorry, something went wrong. Please try again.");
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit";
+        });
+});
 
 // Store User Details in Database
