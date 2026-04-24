@@ -11,6 +11,9 @@ const dropdownBtns = document.getElementById("dropdown-btns");
 const dropdownItems = dropdownBtns.getElementsByTagName("li");
 const currentYear = new Date().getFullYear();
 const year = document.getElementById("year");
+const toggleBtn = document.querySelector(".toggle-btn");
+const toggleBtnIcon = document.querySelector(".toggle-btn i");
+const dropdownMenu = document.querySelector(".dropdown-menu");
 
 year.innerHTML = currentYear;
 
@@ -119,9 +122,6 @@ window.addEventListener("scroll", () => {
 });
 
 //enable dropdown on navbar (mobile)
-const toggleBtn = document.querySelector(".toggle-btn");
-const toggleBtnIcon = document.querySelector(".toggle-btn i");
-const dropdownMenu = document.querySelector(".dropdown-menu");
 
 toggleBtnIcon.onclick = function () {
     dropdownMenu.classList.toggle("open");
