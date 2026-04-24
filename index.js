@@ -19,9 +19,13 @@ emailjs.init({
 });
 
 const contactForm = document.getElementById("contact-form");
+const submitBtn = contactForm.querySelector("button[type='submit']");
 
 contactForm.addEventListener("submit", function (e) {
     e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
 
     emailjs
         .sendForm("service_94q5zno", "template_w45ll98", this)
@@ -32,6 +36,10 @@ contactForm.addEventListener("submit", function (e) {
         .catch((error) => {
             console.error("EmailJS error:", error);
             alert("Sorry, something went wrong. Please try again.");
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit";
         });
 });
 
@@ -122,30 +130,5 @@ toggleBtnIcon.onclick = function () {
         ? "fa-solid fa-xmark fa-3x"
         : "fa-solid fa-bars fa-3x";
 };
-
-const contactForm = document.getElementById("contact-form");
-const submitBtn = contactForm.querySelector("button[type='submit']");
-
-contactForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending...";
-
-    emailjs
-        .sendForm("service_94q5zno", "template_w45ll98", this)
-        .then(() => {
-            alert("Message sent successfully!");
-            contactForm.reset();
-        })
-        .catch((error) => {
-            console.error("EmailJS error:", error);
-            alert("Sorry, something went wrong. Please try again.");
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Submit";
-        });
-});
 
 // Store User Details in Database
